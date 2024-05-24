@@ -8,5 +8,6 @@ void countdown(int , Box** , int , int , int ,int *);
 void move(Box **, Position , int *, int );
 void playRound(Box **, Player *, int , int ,int , int *, int , int );
 void startGame();
+void setup();
 
 #endif /* GAMEPLAY_H */
