@@ -1,5 +1,5 @@
-app: main.o add_content.o create.o display.o search.o choices.o utilities.o
-	gcc -o app main.o add_content.o create.o display.o search.o choices.o utilities.o
+app: main.o add_content.o create.o display.o search.o choices.o utilities.o gameplay.o
+	gcc -o app main.o add_content.o create.o display.o search.o choices.o utilities.o gameplay.o
 
 main.o: main.c
 	gcc -c main.c
@@ -12,6 +12,9 @@ create.o: create.c
 
 display.o: display.c
 	gcc -c display.c   
+
+gameplay.o: gameplay.c
+	gcc -c gameplay.c
 
 search.o : search.c
 	gcc -c search.c

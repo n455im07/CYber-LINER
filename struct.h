@@ -1,6 +1,12 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
+#define MAX_PLAYERS 6
+#define MAX_GRID_SIZE 22
+#define MIN_GRID_SIZE 16
+#define GRID_SIZE 22
+
+
 /* STRUCTURES CREATION */
 typedef struct {
   int x;

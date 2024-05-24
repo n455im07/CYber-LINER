@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "add_content.h": "c",
-        "create.h": "c"
+        "create.h": "c",
+        "unistd.h": "c",
+        "time.h": "c"
     }
 }
