@@ -43,12 +43,12 @@ void addTargets(Box **grid, int size, int nbTargets)
       case 3: // Add wall in the bottom left corner
         grid[x + 1][y].wall.type = 4;
         grid[x][y - 1].wall.type = 3;
-        grid[x][y].angle=3;
+        grid[x][y].angle=4;
         break;
       case 4: // Add wall in the bottom right corner
         grid[x + 1][y].wall.type = 4;
         grid[x][y + 1].wall.type = 2;
-        grid[x][y].angle=4;
+        grid[x][y].angle=3;
         break;
       }
       n++;
