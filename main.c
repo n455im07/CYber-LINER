@@ -35,6 +35,30 @@ void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers
 printf("\n");
 }
 
+void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice){ // Stopwatch depeding on the difficulty choosed
+  printf("\n");
+  printf(" The Players choose the difficulty number %d ! \n", difficulty);
+  printf("\n");
+  usleep(5);
+  int x = 0;
+  switch (difficulty){
+    case 1:
+    x=45;
+    break;
+    case 2:
+    x=25;
+    break;
+    case 3:
+    x=15;
+    break;
+  }
+  printf("\e[0;31m WARNING  \e[0;0m players you will have %d seconds to think of how many movement you will need to land on the target we choosed for ",x);
+  displayCountdown(x, grid, size, r, maxRound,choice);
+  int clear = system("clear");
+    clearScreen(clear);
+  printf("TIMES UP !! \n");
+}
+
 
 void move(Box **grid, Position position, int *choice, int direction) {// Moove the choosen robot depending of the obstacles on the grid
   
@@ -84,30 +108,6 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
     }
     break;
   }
-}
-
-void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice){ // Stopwatch depeding on the difficulty choosed
-  printf("\n");
-  printf(" The Players choose the difficulty number %d ! \n", difficulty);
-  printf("\n");
-  usleep(5);
-  int x = 0;
-  switch (difficulty){
-    case 1:
-    x=45;
-    break;
-    case 2:
-    x=25;
-    break;
-    case 3:
-    x=15;
-    break;
-  }
-  printf("\e[0;31m WARNING  \e[0;0m players you will have %d seconds to think of how many movement you will need to land on the target we choosed for ",x);
-  displayCountdown(x, grid, size, r, maxRound,choice);
-  int clear = system("clear");
-    clearScreen(clear);
-  printf("TIMES UP !! \n");
 }
 
 void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
