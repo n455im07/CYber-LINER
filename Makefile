@@ -26,4 +26,4 @@ utilities.o : utilities.c
 	gcc  -c utilities.c
 
 clean:
-	rm -f *.o myprogram
+	rm -f *.o
