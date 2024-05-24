@@ -1,29 +1,34 @@
-app: main.o add_content.o create.o display.o search.o choices.o utilities.o gameplay.o
-	gcc -o app main.o add_content.o create.o display.o search.o choices.o utilities.o gameplay.o
+# Cible pour l'exécutable final. Elle dépend de tous les fichiers objets.
+app: Objects/main.o Objects/add_content.o Objects/create.o Objects/display.o \
+     Objects/search.o Objects/choices.o Objects/utilities.o Objects/gameplay.o
+	gcc -o app Objects/main.o Objects/add_content.o Objects/create.o \
+	    Objects/display.o Objects/search.o Objects/choices.o \
+	    Objects/utilities.o Objects/gameplay.o
 
-main.o: main.c
-	gcc -c main.c
+# Cibles pour chaque fichier objet
+Objects/main.o: main.c
+	gcc -c main.c -o Objects/main.o
 
-add_content.o: add_content.c
-	gcc -c add_content.c
+Objects/add_content.o: add_content.c
+	gcc -c add_content.c -o Objects/add_content.o
 
-create.o: create.c
-	gcc -c create.c
+Objects/create.o: create.c
+	gcc -c create.c -o Objects/create.o
 
-display.o: display.c
-	gcc -c display.c   
+Objects/display.o: display.c
+	gcc -c display.c -o Objects/display.o
 
-gameplay.o: gameplay.c
-	gcc -c gameplay.c
+Objects/gameplay.o: gameplay.c
+	gcc -c gameplay.c -o Objects/gameplay.o
 
-search.o : search.c
-	gcc -c search.c
+Objects/search.o: search.c
+	gcc -c search.c -o Objects/search.o
 
-choices.o : choices.c
-	gcc -c choices.c
+Objects/choices.o: choices.c
+	gcc -c choices.c -o Objects/choices.o
 
-utilities.o : utilities.c
-	gcc  -c utilities.c
+Objects/utilities.o: utilities.c
+	gcc -c utilities.c -o Objects/utilities.o
 
 clean:
-	rm -f *.o
+	rm -f Objects/*.o app

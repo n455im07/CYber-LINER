@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "gameplay.h"
 #include "utilities.h"
 #include "search.h"
+#include "display.h"
 
 
 void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers, int minMovementsPlayers, int minIndex) { // Calculate the points of the players depending of the customers conditions
