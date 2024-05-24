@@ -3,6 +3,12 @@
         "add_content.h": "c",
         "create.h": "c",
         "unistd.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "struct.h": "c",
+        "choices.h": "c",
+        "display.h": "c",
+        "utilities.h": "c",
+        "search.h": "c",
+        "gameplay.h": "c"
     }
 }

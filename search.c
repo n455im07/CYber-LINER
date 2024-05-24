@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "struct.h"
-#include "search.h"
+#include "Headers/struct.h"
+#include "Headers/search.h"
 
 int isValid(Position position, Box **grid, int type, int type2) {
   if (grid == NULL) {

@@ -1,8 +1,5 @@
-app: Objects/main.o Objects/add_content.o Objects/create.o Objects/display.o \
-     Objects/search.o Objects/choices.o Objects/utilities.o Objects/gameplay.o
-	gcc -o app Objects/main.o Objects/add_content.o Objects/create.o \
-	    Objects/display.o Objects/search.o Objects/choices.o \
-	    Objects/utilities.o Objects/gameplay.o
+app: Objects/main.o Objects/add_content.o Objects/create.o Objects/display.o Objects/search.o Objects/choices.o Objects/utilities.o Objects/gameplay.o
+	gcc -o app Objects/main.o Objects/add_content.o Objects/create.o Objects/display.o Objects/search.o Objects/choices.o Objects/utilities.o Objects/gameplay.o
 
 Objects/main.o: main.c
 	gcc -c main.c -o Objects/main.o

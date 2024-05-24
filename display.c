@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "display.h"
-#include "create.h"
-#include "utilities.h"
+#include "Headers/display.h"
+#include "Headers/create.h"
+#include "Headers/utilities.h"
 
 void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choice){ // Display a countdown
   if(x<=0){

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "utilities.h"
+#include "Headers/utilities.h"
 
 void empty_buffer() { // Prevent user from entering multiple characters in scanf
 int ch = 0;

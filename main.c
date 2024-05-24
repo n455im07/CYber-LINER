@@ -3,13 +3,13 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "add_content.h"
-#include "choices.h"
-#include "create.h"
-#include "display.h"
-#include "utilities.h"
-#include "search.h"
-#include "gameplay.h"
+#include "Headers/add_content.h"
+#include "Headers/choices.h"
+#include "Headers/create.h"
+#include "Headers/display.h"
+#include "Headers/utilities.h"
+#include "Headers/search.h"
+#include "Headers/gameplay.h"
 
 int main()
 {

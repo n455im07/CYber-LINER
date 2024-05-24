@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "add_content.h"
+#include "Headers/add_content.h"
 
 void addTargets(Box **grid, int size, int nbTargets)
 { // Add all targets on the grid

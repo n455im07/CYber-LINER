@@ -3,10 +3,10 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "create.h"
-#include "display.h"
-#include "choices.h"
-#include "utilities.h"
+#include "Headers/create.h"
+#include "Headers/display.h"
+#include "Headers/choices.h"
+#include "Headers/utilities.h"
 
 
 int ChooseNbPlayers() { // User choose the number of players
