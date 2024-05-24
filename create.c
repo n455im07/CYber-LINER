@@ -35,6 +35,7 @@ Box createBox(int type, int x, int y) {
   box.robot = createRobot();
   box.target = 0;
   box.wall = createWall(type);
+  box.angle = 0;
   return box;
 }
 

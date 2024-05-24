@@ -13,6 +13,29 @@
 #define GRID_SIZE 22
 #define MAX_PLAYERS 6
 
+void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers, int minMovementsPlayers, int minIndex) { // Calculate the points of the players depending of the customers conditions
+  if (cible == 0) {
+    for (int i = 0; i < nbPlayers; i++) {
+      if (player[i].id == player[minIndex].id) {
+        player[i].score = player[i].score + 0;
+      } else {
+        player[i].score = player[i].score + 1;
+      }
+    }
+  } else if (cible == 1 && nummovements == minMovementsPlayers) {
+    player[minIndex].score = player[minIndex].score + 2;
+  } else {
+    player[minIndex].score = player[minIndex].score - 1;
+  }
+  for (int i = 0; i < nbPlayers; i++) {
+    printf("\x1B[34m|Score player %d : (%d)|\n", player[i].id,
+           player[i].score);
+  printf("\n");
+  }
+printf("\n");
+}
+
+
 void move(Box **grid, Position position, int *choice, int direction) {// Moove the choosen robot depending of the obstacles on the grid
   
   if (grid == NULL) { 
@@ -63,6 +86,30 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
   }
 }
 
+void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice){ // Stopwatch depeding on the difficulty choosed
+  printf("\n");
+  printf(" The Players choose the difficulty number %d ! \n", difficulty);
+  printf("\n");
+  usleep(5);
+  int x = 0;
+  switch (difficulty){
+    case 1:
+    x=45;
+    break;
+    case 2:
+    x=25;
+    break;
+    case 3:
+    x=15;
+    break;
+  }
+  printf("\e[0;31m WARNING  \e[0;0m players you will have %d seconds to think of how many movement you will need to land on the target we choosed for ",x);
+  displayCountdown(x, grid, size, r, maxRound,choice);
+  int clear = system("clear");
+    clearScreen(clear);
+  printf("TIMES UP !! \n");
+}
+
 void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
                int size, int *choice, int r, int maxRound) {
   if (grid == NULL) {
@@ -77,19 +124,19 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
     printf("Allocation failed");
     exit(10);
   }
- 
+  countdown(difficulty,grid,size, r, maxRound, choice);
   int movements[MAX_PLAYERS] = {0};
-  int scan = 0;
+  int scan = 0; char a;
   for (int i = 0; i < nbPlayers; i++) {
+    do{
     printf("\x1B[34m Player %d please indicate how many movements you need to reach the target\n\x1B[35m", player[i].id);
-    scan = scanf("%d", &movements[i]); 
+    scan = scanf("%3d%c", &movements[i], &a); 
+    if (movements[i] <= 0 || movements[i] > 100 || scan != 2 || a!= '\n'){
+      printf("\x1B[34mInvalid nomber of movements bigger than 100, retry please : \n\x1B[35m");
     empty_buffer();
-    while (movements[i] <= 0 || movements[i] > 100 || scan != 1) {
-      printf("\x1B[34mInvalid nomber of movements, retry please : \n\x1B[35m");
-      scan = scanf("%d", &movements[i]);
-      empty_buffer();
+    }   
+    }while (movements[i] <= 0 || movements[i] > 100 || scan != 2|| a!='\n');
     }
-  }
   int min = movements[0];
   int minIndex = 0;
   int numMovements = 0;
@@ -105,22 +152,21 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
          min);
   printf("%d\x1B[34m play !\n", player[minIndex].id);
 
-  displayGrid(grid, size);
+  displayGrid(grid, size,r,maxRound,choice);
 
   int cible = 0;
-  int minMovementsPlayers = min;
+  int minMovementsPlayers = min; char b;
   
   while (min > 0 && cible == 0) {
-
     char direction;
-    
     do {
       printf("\x1B[37mChoose a direction using z-q-s-d\n");
-      scan = scanf(" %c", &direction);
+      scan = scanf("%1c%c", &direction, &b);
+      if ( direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' ||  scan != 2 || b!= '\n'){
+      printf("Wrong input\n");
       empty_buffer(); 
-    } while (direction != 'd' && direction != 's' && direction != 'q' &&
-                 direction != 'z' ||
-             scan != 1);
+      }
+    } while (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' ||  scan != 2 || b!= '\n');
 
     int idRobot = choice[0];
     int numTarget = choice[1];
@@ -136,7 +182,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
       int clear = system("clear");
       clearScreen(clear);
       move(grid, posRobot, choice, direction);
-      displayGrid(grid, size);
+      displayGrid(grid, size,r,maxRound,choice);
       printf("\n\n DISTANCE = %d\n", distance);
       usleep(80000);
       posRobot = searchRobot(grid, size, idRobot);
@@ -174,30 +220,50 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,
       printf("Movements lefts : %d\n", min);
        break;
     }
-    
-  
   }
   printf("\x1b[0m");
+  pointsCalculator(numMovements, cible, player, nbPlayers, minMovementsPlayers,minIndex);
 
+}
+
+void startGame(){
+    printf("\n\n\n");
+    printf("\x1B[34m╔════════════════════════════════════════════════════╗\n");
+    printf("\x1B[34m║");
+    printf("\x1B[35m          ☛ Press ENTER to start the game ☚         ");
+    printf("\x1B[34m║\n");
+    printf("\x1B[34m╚════════════════════════════════════════════════════╝\n");
+    printf("\n\n\n");
+    getchar();
+    
 }
 
 
 int main()
 {
     int *choice = NULL;
-    // srand(time(NULL));
+    // srand(time(NULL)); 
     int size = GRID_SIZE;
+    int clear = system("clear");
+
+  
+    printf("   \x1B[35m_____   __\x1B[34m_                 _    ___ _  _ ___ ___ \n");
+    printf(" \x1B[35m / __\\ \\ / /\x1B[34m |__  ___ _ _ ___| |  |_ _| \\| | __| _ \\\n");
+    printf("\x1B[35m | (__ \\ V /\x1B[34m| '_ \\/ -_) '_|___| |__ | || .` | _||   /\n");
+    printf(" \x1B[35m \\___| |_| \x1B[34m|_.__/\\___|_|     |____|___|_|\\_|___|_|_\\\n");
+    startGame();
+    clear = system("clear");
+    clearScreen(clear);
     printf("   \x1B[34m_____   __\x1B[35m_                 _    ___ _  _ ___ ___ \n");
     printf(" \x1B[34m / __\\ \\ / /\x1B[35m |__  ___ _ _ ___| |  |_ _| \\| | __| _ \\\n");
     printf("\x1B[34m | (__ \\ V /\x1B[35m| '_ \\/ -_) '_|___| |__ | || .` | _||   /\n");
-    printf(" \x1B[34m \\___| |_| \x1B[35m|_.__/\\___|_|     |____|___|_|\\_|___|_|_\\\n");
-    printf("\n\n\x1B[34mGRIDSIZE = %d\n", size);
+    printf(" \x1B[34m \\___| |_| \x1B[35m|_.__/\\___|_|     |____|___|_|\\_|___|_|_\\\n\n");
 
-    printf("\x1B[0m");
 
- // PLAYER BOARD CREATION
-  int nbPlayers = ChooseNbPlayers();
-  Player *player = createPlayerBoard(nbPlayers, size);
+
+    // PLAYER BOARD CREATION
+    int nbPlayers = ChooseNbPlayers();
+    Player *player = createPlayerBoard(nbPlayers, size);
 
     // GRID CREATION
     Box **grid = createGrid(size);
@@ -205,22 +271,29 @@ int main()
     addTargets(grid, size, 18); // Add 18 targets
     addSpikes(grid, size);
     addRobots(grid, size);
+    
+    // SET CHOICES
+    int maxRound = chooseRounds();
+    int difficulty = chooseDifficulty();
+    
     int r=1;
-    for (int r = 1; r <= 5; r++) {
-        printf("\x1B[35mRound %d/%d\n\n", r, 5);            
+    for (int r = 1; r <= maxRound; r++) {
+        printf("\x1B[35mRound %d/%d\n\n", r,maxRound);            
         int *choice = randomChoice(grid, size); // Choose choice
-        displayGrid(grid, size);
-        playRound(grid, player,3, nbPlayers, size, choice, r, 5);
+        playRound(grid, player,difficulty, nbPlayers, size, choice, r, maxRound);
   }
-    // Display test
-    displayGrid(grid, size);
-
+  	displayWinner(player, nbPlayers);
+  	printf("   \x1B[32m_____   __\x1B[36m_                 _    ___ _  _ ___ ___ \n");
+  	printf(" \x1B[32m / __\\ \\ / /\x1B[36m |__  ___ _ _ ___| |  |_ _| \\| | __| _ \\\n");
+  	printf("\x1B[32m | (__ \\ V /\x1B[36m| '_ \\/ -_) '_|___| |__ | || .` | _||   /\n");
+  	printf(" \x1B[32m \\___| |_| \x1B[36m|_.__/\\___|_|     |____|___|_|\\_|___|_|_\\\n");
     // Free all memory
     for (int k = 0; k < size; k++)
     {
         free(grid[k]);
     }
     free(grid);
+    free(player);
     free(choice);
     return 0;
 }

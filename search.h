@@ -3,9 +3,9 @@
 
 #include "struct.h"
 
+int isValid(Position, Box **, int, int );
 Position searchRobot(Box**, int, int);
 Position searchTarget(Box**, int, int);
 int searchDistance(Box **, int, Position, int);
-int isValid(Position position, Box **grid, int type, int type2);
 
 #endif /* SEARCH_H */

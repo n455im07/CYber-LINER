@@ -11,37 +11,45 @@
 
 int ChooseNbPlayers() { // User choose the number of players
   int nbPlayers = 0;
-  int scan = 0;
+  int scan = 0; char a;
   do {
     printf("\x1B[34m╔════════════════════════════════════════════════════╗\n");
     printf("\x1B[34m║\x1B[35m   === Select Number of Players (2-6) ===\x1B[34m           ║\n");
     printf("\x1B[34m║\x1B[36m           [2] [3] [4] [5] [6]                      \x1B[34m║\n");
     printf("\x1B[34m╚════════════════════════════════════════════════════╝\n\x1B[35m");
     printf("\x1B[36mYour choice:\n\n \x1B[37m");
-    scan = scanf("%d", &nbPlayers);
-    empty_buffer();
-  } while (nbPlayers < 2 || nbPlayers > 6 || scan != 1); // Loop until the number of player is valid (2-6)
+    scan = scanf("%1d%c", &nbPlayers, &a);
+    if(nbPlayers < 2 || nbPlayers > 6 || scan != 2 || a!= '\n'){
+      printf("Mauvaise valeur\n");
+        empty_buffer();
+    }
+    
+  } while (nbPlayers < 2 || nbPlayers > 6 || scan != 2 || a!= '\n'); // Loop until the number of player is valid (2-6)
   return nbPlayers;
 }
 
 int chooseRounds() { // User choose the maximum number of rounds
   int maxRounds = 0;
-  int scan = 0;
+  int scan = 0;  char a;
   do {
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
     printf("\x1B[34m║\x1B[35m             === Select Number of Rounds ===              \x1B[34m║\n");
     printf("\x1B[34m║\x1B[36m               Enter the number of rounds (1-20):         \x1B[34m║\n");
     printf("\x1B[34m╚══════════════════════════════════════════════════════════╝\n\x1B[35m");
     printf("\x1B[36mYour choice: \x1B[37m");
-    scan = scanf("%d", &maxRounds);
-    empty_buffer();
-  }while( scan != 1 || maxRounds <= 0 || maxRounds>20); // Loop until the maximum number of rounds is valid (1-20) 
+    scan = scanf("%1d%c", &maxRounds, &a);
+      if(scan != 2 || maxRounds <= 0 || maxRounds>20 || a != '\n'){
+        printf("Mauvaise valeur\n");
+          empty_buffer();
+      }
+  
+  }while( scan != 2 || maxRounds <= 0 || maxRounds>20 || a != '\n'); // Loop until the maximum number of rounds is valid (1-20) 
   return maxRounds;
  }
 
 int chooseDifficulty() { // User choose the difficulty level
   int difficulty = 0;
-  int scan = 0;
+  int scan = 0; char a;
   printf("\n");
   printf("\x1B[34mThere are 3 differents levels of difficulty : \n");
 printf("\n");
@@ -54,9 +62,12 @@ printf("\n");
 printf("\n");
   do {
     printf("\x1B[34mChoose game difficulty (1,2 or 3) ? : \n\x1B[35m");
-    scan = scanf("%d", &difficulty);
-    empty_buffer();
-  } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 1); // Loop until difficulty level is valid (1,2,3)
+    scan = scanf("%1d%c", &difficulty, &a);
+   if ( difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2 || a!= '\n'){
+    printf("Mauvaise valeur\n");
+     empty_buffer();
+   }
+  } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2|| a!= '\n'); // Loop until difficulty level is valid (1,2,3)
   printf("\n");
   do{ // Display the difficulty level choosen
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
@@ -80,8 +91,6 @@ printf("\n");
 
 int *randomChoice(Box **grid, int size) { 
   int *choice = NULL;
-
-  
   if(grid==NULL){
     printf("Error: malloc failed\n");
     exit(1);
