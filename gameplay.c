@@ -25,6 +25,9 @@ void setup(){
     startGame();
     clear = system("clear");
     clearScreen(clear);
+
+    // menu();
+
     printf("   \x1B[34m_____   __\x1B[35m_                 _    ___ _  _ ___ ___ \n");
     printf(" \x1B[34m / __\\ \\ / /\x1B[35m |__  ___ _ _ ___| |  |_ _| \\| | __| _ \\\n");
     printf("\x1B[34m | (__ \\ V /\x1B[35m| '_ \\/ -_) '_|___| |__ | || .` | _||   /\n");
