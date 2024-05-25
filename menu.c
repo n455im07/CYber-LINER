@@ -16,7 +16,7 @@ void setup(int difficulty,int nbPlayers, int maxRound){
     
     int *choice = NULL;
     srand(time(NULL)); 
-    int size = GRID_SIZE;
+    int size = rand()%(MAX_GRID_SIZE-MIN_GRID_SIZE+1)+MIN_GRID_SIZE;
     int clear = system("clear");
 
   
@@ -85,7 +85,6 @@ void moveUser(int **menu, UserPosition *user, char direction) {
     }
     menu[user->x][user->y] = 2;
 }
-
 
 void printMenu(int **menu) {
     for (int i = 0; i < 7; i++) {
@@ -266,4 +265,8 @@ void useMenu(){
         }
     }
     setup(difficulty,nbPlayers,maxRound);
+    for (int k = 0; k < 7; k++){
+        free(menu[k]);
+    }
+    free(menu);
 }   

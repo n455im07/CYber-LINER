@@ -30,9 +30,6 @@ printf("\n");
 }
 
 void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice){ // Stopwatch depeding on the difficulty choosed
-  printf("\n");
-  printf(" The Players choose the difficulty number %d ! \n", difficulty);
-  printf("\n");
   usleep(5);
   int x = 0;
   switch (difficulty){
@@ -46,13 +43,22 @@ void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *ch
     x=15;
     break;
   }
-  printf("\e[0;31m WARNING  \e[0;0m players you will have %d seconds to think of how many movement you will need to land on the target we choosed for ",x);
+  printf("\x1B[37m\nLook closely, you will only have few seconds to create a path to the target !");
+  sleep (2);
+  printf("\n");
+  printf("3\n");
+  sleep(1);
+  printf("2\n");
+  sleep(1);
+  printf("1\n");
+  sleep(1);
+  printf("GO !\n");
+  sleep(1);
   displayCountdown(x, grid, size, r, maxRound,choice);
   int clear = system("clear");
     clearScreen(clear);
   printf("TIMES UP !! \n");
 }
-
 
 void move(Box **grid, Position position, int *choice, int direction) {// Moove the choosen robot depending of the obstacles on the grid
   

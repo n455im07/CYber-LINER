@@ -127,18 +127,6 @@ int *randomChoice(Box **grid, int size) {
   printf("\x1B[37m\nYour target is :");
   displayTarget( numTarget); // Display the target caracter depending on the number
   printf("\n");
-  printf("\x1B[37m\nLook closely and memorize !");
-  sleep (2);
-  printf("\n");
-  printf("3\n");
-  sleep(1);
-  printf("2\n");
-  sleep(1);
-  printf("1\n");
-  sleep(1);
-  printf("GO !\n");
-  sleep(1);
-;
   choice[0] = idRobot; 
   choice[1] = numTarget;
   return choice; // Return array with robot id and target id

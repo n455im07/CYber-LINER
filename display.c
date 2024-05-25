@@ -369,7 +369,7 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice) { // Disp
   if(choice==NULL){
     exit(1);
   }
-  convertGrid(grid, size);
+  //convertGrid(grid, size);
   printf("\n\n");
   // Display the whole grid
   if (grid == NULL) { // Verify if memory is allocated
