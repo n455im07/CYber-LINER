@@ -133,7 +133,7 @@ void displayTarget(int target) { // Display the target depending on it's number
   if (target < 1 || target > 18) {
     exit(1);
   }
-  printf("\033[1;97m"); // Sets the color to dark white
+  printf("\033[0m"); // Sets the color to default
   switch (target) {
   case 1:
     printf(" ⑴ ");
