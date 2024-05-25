@@ -9,46 +9,23 @@ typedef struct {
 } UserPosition;
 
 void moveUser(int **menu, UserPosition *user, char direction) {
-    if (user->x < 4 && user->x > 1 && user->y > 1 && user->y < 3 ){
-        menu[user->x][user->y] = 3;
-    }
-    if(user->x == 1 && user->y == 1){
-        menu[user->x][user->y] = 4;
-    }
-    if (user->x < 3 && user->x > 1 && user->y > 3 && user->y < 6 ){
-        menu[user->x][user->y] = 5;
-    }
-    if(user->x == 1 && user->y == 5){
-        menu[user->x][user->y] = 6;
-    }
-    if (user->x < 6 && user->x > 4 && user->y > 1 && user->y < 4 ){
-        menu[user->x][user->y] = 7;
-    }
-    if(user->x == 5 && user->y == 1){
-        menu[user->x][user->y] = 8;
-    }
-    if (user->x < 6 && user->x > 3 && user->y > 4 && user->y < 6 ){
-        menu[user->x][user->y] = 3;
-    }
-    if(user->x == 5 && user->y == 5){
-        menu[user->x][user->y] = 10;
-    }
     switch(direction) {
         case 'z': // move up
-            if (user->y > 1) user->y--;
-            break;
-        case 's': // move down
-            if (user->y < 5) user->y++;
-            break;
-        case 'q': // move left
             if (user->x > 1) user->x--;
             break;
-        case 'd': // move right
+        case 's': // move down
             if (user->x < 5) user->x++;
             break;
+        case 'q': // move left
+            if (user->y > 1) user->y--;
+            break;
+        case 'd': // move right
+            if (user->y < 5) user->y++;
+            break;
     }
-    menu[user->y][user->x] = 2;
+    menu[user->x][user->y] = 2;
 }
+
 
 void printMenu(int **menu) {
     for (int i = 0; i < 7; i++) {
@@ -93,13 +70,11 @@ void printMenu(int **menu) {
     }
 }
 
-int** createMenu(){
+int** createMenu(UserPosition user){
         int **menu=malloc(7*sizeof(int*));   
         for (int i = 0; i < 7; i++) {
             menu[i] = calloc(7,sizeof(int));
         }
-        menu[3][3]=2;
-
         for (int i=0;i<7;i++){
             for (int j=0;j<7;j++){
                 if(i==0 || i == 6 || j ==0|| j==6){
@@ -134,14 +109,46 @@ int** createMenu(){
             }
         }
         menu[5][5]=10;
+        menu[user.x][user.y]=2;
         return menu;
 }
 
+void displaySelection(int** menu,UserPosition user){
+    printf("\n");
+    printf(" X = %d et Y = %d\n",user.x,user.y);
+    if (user.x==3 && user.y == 3){
+        printf(" 💙 \e[1;34m: Start\n");
+        printf(" 💚 \e[1;32m: Players\n");
+        printf(" 💜 \e[1;35m: Difficulty\n");
+        printf(" ❤️  \e[1;31m: Leave\n");
+    } else if (user.x < 4 && user.x > 0 && user.y< 3 && user.y > 0){  
+        printf(" 💙 \e[1;34m: \e[1;4;34mStart\e[0m\e[1;34m ☜\n");
+        printf(" 💚 \e[1;32m: Players\n");
+        printf(" 💜 \e[1;35m: Difficulty\n");
+        printf(" ❤️  \e[1;31m: Leave\n");
+    }else if (user.x < 3 && user.x > 0 && user.y< 6 && user.y > 2){
+        printf(" 💙 \e[1;34m: Start\n");
+        printf(" 💚 \e[1;32m: \e[1;4;32mPlayers\e[0m\e[1;32m ☜\n");
+        printf(" 💜 \e[1;35m: Difficulty\n");
+        printf(" ❤️  \e[1;31m: Leave\n");
+    }else if (user.x < 6 && user.x > 2 && user.y< 4 && user.y > 0){
+        printf(" 💙 \e[1;34m: Start\n");
+        printf(" 💚 \e[1;32m: Players\n");
+        printf(" 💜 \e[1;35m: \e[1;4;35mDifficulty\e[0m\e[1;35m ☜\n");
+        printf(" ❤️  \e[1;31m: Leave\n");
+    }else if (user.x < 6 && user.x > 2 && user.y< 6 && user.y > 3){
+        printf(" 💙 \e[1;34m: Start\n");
+        printf(" 💚 \e[1;32m: Players\n");
+        printf(" 💜 \e[1;35m: Difficulty\n");
+        printf(" ❤️  \e[1;31m: \e[1;4;31mLeave\e[0m\e[1;31m ☜\n");
+        };
+}
 
 int main(){
 
-    int** menu = createMenu();
+    
     UserPosition user = {3, 3};
+    int** menu = createMenu(user);
     char direction, b;
     int scan;
     int clear = system("clear");
@@ -149,27 +156,21 @@ int main(){
 while (1) {
     system("clear");
     printMenu(menu);
+    if (user.x==5 && user.y==5){
+        printf(" ❤️  \e[1;31m: \e[1;4;31mYou left the game.\e[0m\e[1;31m\n");
+        exit(1);
+    }
+
     printf("\x1B[37mChoose a direction using z-q-s-d\n");
+    displaySelection(menu,user);
     int scan = scanf("%1c%c", &direction, &b);
     if ((direction != 'd' && direction != 's' && direction != 'q' && direction != 'z') || scan != 2 || b != '\n') {
         printf("Wrong input\n");
         while (getchar() != '\n');
     } else {
         moveUser(menu, &user, direction);
+        menu = createMenu(user);
     }
 }
-
-    printf(" 💙 \e[1;34m: Start\n");
-    printf(" 💚 \e[1;32m: Players\n");
-    printf(" 💜 \e[1;35m: Difficulty\n");
-    printf(" ❤️  \e[1;31m: Leave\n");
-    printf("\n");
-    printf(" 💙 \e[1;34m: \e[1;4;34mStart\e[0m\n");
-    printf(" 💚 \e[1;32m: \e[1;4;32mPlayers\e[0m\n");
-    printf(" 💜 \e[1;35m: \e[1;4;35mDifficulty\e[0m\n");
-    printf(" ❤️  \e[1;31m: \e[1;4;31mLeave\e[0m\n");
-
-
-
     return 0;
 }
