@@ -146,7 +146,6 @@ void displaySelection(int** menu,UserPosition user){
 
 int main(){
 
-    
     UserPosition user = {3, 3};
     int** menu = createMenu(user);
     char direction, b;
