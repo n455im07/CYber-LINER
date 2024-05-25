@@ -1,3 +1,5 @@
+# <span style="color:blue;">CYBer-LINER</span> 
+
 CYBer-LINER is a turn-based multiplayer strategy game developed by Sofyane ABAJOU, Ilann BOUDRIA, and Nassim JAMHOUR. 
 This README provides instructions on how to compile and run the game, as well as details on gameplay and settings.
 
