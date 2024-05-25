@@ -104,7 +104,7 @@ void printMenu(int **menu) {
                     printf("⬜");
                     break;
                 case 4:
-                    printf("💙");
+                    printf("🤍");
                     break;
                 case 5:
                     printf("🟩");
@@ -177,27 +177,27 @@ void displaySelection(int** menu, UserPosition user, int nbPlayers, int difficul
     printf("\n");
     printf(" X = %d et Y = %d\n", user.x, user.y);
     if (user.x == 3 && user.y == 3) {
-        printf(" 💙 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
+        printf(" 🤍 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
         printf(" 💚 \033[1;32m: Players (Currently %d)\n", nbPlayers);
         printf(" 💜 \033[1;35m: Difficulty (Currently %d)\n", difficulty);
         printf(" ❌  \033[1;31m: Leave\n");
     } else if (user.x < 4 && user.x > 0 && user.y < 3 && user.y > 0) {  
-        printf(" 💙 \033[1;34m: \033[1;4;34mNumber of rounds (Currently %d)\033[0m\033[1;34m ☜\n", maxRound);
+        printf(" 🤍 \033[1;34m: \033[1;4;34mNumber of rounds (Currently %d)\033[0m\033[1;34m ☜\n", maxRound);
         printf(" 💚 \033[1;32m: Players (Currently %d)\n", nbPlayers);
         printf(" 💜 \033[1;35m: Difficulty (Currently %d)\n", difficulty);
         printf(" ❌  \033[1;31m: Leave\n");
     } else if (user.x < 3 && user.x > 0 && user.y < 6 && user.y > 2) {
-        printf(" 💙 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
+        printf(" 🤍 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
         printf(" 💚 \033[1;32m: \033[1;4;32mPlayers (Currently %d)\033[0m\033[1;32m ☜\n", nbPlayers);
         printf(" 💜 \033[1;35m: Difficulty (Currently %d)\n", difficulty);
         printf(" ❌  \033[1;31m: Leave\n");
     } else if (user.x < 6 && user.x > 2 && user.y < 4 && user.y > 0) {
-        printf(" 💙 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
+        printf(" 🤍 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
         printf(" 💚 \033[1;32m: Players (Currently %d)\n", nbPlayers);
         printf(" 💜 \033[1;35m: \033[1;4;35mDifficulty (Currently %d)\033[0m\033[1;35m ☜\n", difficulty);
         printf(" ❌  \033[1;31m: Leave\n");
     } else if (user.x < 6 && user.x > 2 && user.y < 6 && user.y > 3) {
-        printf(" 💙 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
+        printf(" 🤍 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
         printf(" 💚 \033[1;32m: Players (Currently %d)\n", nbPlayers);
         printf(" 💜 \033[1;35m: Difficulty (Currently %d)\n", difficulty);
         printf(" ❌  \033[1;31m: \033[1;4;31mLeave\033[0m\033[1;31m ☜\n");
@@ -213,9 +213,11 @@ void useMenu(){
     char direction, b;
     int scan;
     int clear = system("clear");
+    clearScreen(clear);
 
     while (1) {
-        system("clear");
+        clear = system("clear");
+        clearScreen(clear);
         printMenu(menu);
         if (user.x == 5 && user.y == 5) {
             printf(" ❤️  \e[1;31m: \e[1;4;31mYou left the game.\e[0m\e[1;31m\n");
@@ -226,7 +228,8 @@ void useMenu(){
             user.x = 3;
             user.y = 3;
             menu = createMenu(user);
-            system("clear");
+            clear = system("clear");
+            clearScreen(clear);
             printMenu(menu);
         }
         if (user.x == 1 && user.y == 1){
@@ -234,7 +237,8 @@ void useMenu(){
             user.x = 3;
             user.y = 3;
             menu = createMenu(user);
-            system("clear");
+            clear = system("clear");
+            clearScreen(clear);
             printMenu(menu);
         }
         if (user.x==5 && user.y == 1){
@@ -242,7 +246,8 @@ void useMenu(){
             user.x = 3;
             user.y = 3;
             menu = createMenu(user);
-            system("clear");
+            clear = system("clear");
+            clearScreen(clear);
             printMenu(menu);
         }
 
@@ -250,7 +255,6 @@ void useMenu(){
         displaySelection(menu, user, nbPlayers, difficulty, maxRound);
         int scan = scanf("%1c%c", &direction, &b);
         if (direction == 'e'){
-            printf(" Pas mal non ? C'est fançais");
             break;
         }
         if ((direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e') || scan != 2 || b != '\n') {

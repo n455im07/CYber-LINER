@@ -20,7 +20,7 @@ int chooseNbPlayers() { // User choose the number of players
     printf("\x1B[36mYour choice:\n\n \x1B[37m");
     scan = scanf("%1d%c", &nbPlayers, &a);
     if(nbPlayers < 2 || nbPlayers > 6 || scan != 2 || a!= '\n'){
-      printf("Mauvaise valeur\n");
+      printf("Wrong input\n");
         empty_buffer();
     }
     
@@ -30,26 +30,26 @@ int chooseNbPlayers() { // User choose the number of players
 
 int chooseRounds() { // User choose the maximum number of rounds
   int maxRounds = 0;
-  int scan = 0;  char a;
+  int scan = 0;
   do {
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
     printf("\x1B[34m║\x1B[35m             === Select Number of Rounds ===              \x1B[34m║\n");
     printf("\x1B[34m║\x1B[36m               Enter the number of rounds (1-20):         \x1B[34m║\n");
     printf("\x1B[34m╚══════════════════════════════════════════════════════════╝\n\x1B[35m");
     printf("\x1B[36mYour choice: \x1B[37m");
-    scan = scanf("%1d%c", &maxRounds, &a);
-      if(scan != 2 || maxRounds <= 0 || maxRounds>20 || a != '\n'){
-        printf("Mauvaise valeur\n");
+    scan = scanf("%d", &maxRounds);
+      if(scan != 1 || maxRounds <= 0 || maxRounds>20 ){
+        printf("Wrong input\n");
           empty_buffer();
       }
   
-  }while( scan != 2 || maxRounds <= 0 || maxRounds>20 || a != '\n'); // Loop until the maximum number of rounds is valid (1-20) 
+  }while( scan != 1 || maxRounds <= 0 || maxRounds>20); // Loop until the maximum number of rounds is valid (1-20) 
   return maxRounds;
  }
 
 int chooseDifficulty() { // User choose the difficulty level
   int difficulty = 0;
-  int scan = 0; char a;
+  int scan = 0;
   printf("\n");
   printf("\x1B[34mThere are 3 differents levels of difficulty : \n");
 printf("\n");
@@ -62,12 +62,12 @@ printf("\n");
 printf("\n");
   do {
     printf("\x1B[34mChoose game difficulty (1,2 or 3) ? : \n\x1B[35m");
-    scan = scanf("%1d%c", &difficulty, &a);
-   if ( difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2 || a!= '\n'){
-    printf("Mauvaise valeur\n");
+    scan = scanf("%d", &difficulty);
+   if ( difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 1 ){
+    printf("Wrong input\n");
      empty_buffer();
    }
-  } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2|| a!= '\n'); // Loop until difficulty level is valid (1,2,3)
+  } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 1); // Loop until difficulty level is valid (1,2,3)
   printf("\n");
   do{ // Display the difficulty level choosen
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
