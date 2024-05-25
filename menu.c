@@ -252,11 +252,12 @@ void useMenu(){
 
         printf("\x1B[37mChoose a direction using z-q-s-d  | e to start\n");
         displaySelection(menu, user, nbPlayers, difficulty, maxRound);
-        int scan = scanf("%1c%c", &direction, &b);
+        direction = getchar();
+        empty_buffer();
         if (direction == 'e'){
             break;
         }
-        if ((direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e') || scan != 2 || b != '\n') {
+        if (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e') {
             printf("Wrong input\n");
             while (getchar() != '\n');
         } else {

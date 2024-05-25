@@ -44,6 +44,7 @@ int chooseRounds() { // User choose the maximum number of rounds
       }
   
   }while( scan != 1 || maxRounds <= 0 || maxRounds>20); // Loop until the maximum number of rounds is valid (1-20) 
+  empty_buffer();
   return maxRounds;
  }
 
@@ -68,6 +69,7 @@ printf("\n");
      empty_buffer();
    }
   } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 1); // Loop until difficulty level is valid (1,2,3)
+  empty_buffer();
   printf("\n");
   do{ // Display the difficulty level choosen
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
