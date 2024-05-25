@@ -1,7 +1,7 @@
-#include "Headers/gameplay.h"
+#include "Headers/menu.h"
 
 int main()
 {
-    setup();
+    useMenu();
     return 0;
 }

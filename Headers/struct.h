@@ -8,6 +8,13 @@
 
 
 /* STRUCTURES CREATION */
+
+typedef struct {
+    int x;
+    int y;
+} UserPosition; // In the menu
+
+
 typedef struct {
   int x;
   int y;

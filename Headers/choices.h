@@ -3,7 +3,7 @@
 
 #include "struct.h"
 
-int ChooseNbPlayers();
+int chooseNbPlayers();
 int chooseRounds();
 int chooseDifficulty();
 int *randomChoice(Box **, int);

@@ -9,7 +9,7 @@
 #include "Headers/utilities.h"
 
 
-int ChooseNbPlayers() { // User choose the number of players
+int chooseNbPlayers() { // User choose the number of players
   int nbPlayers = 0;
   int scan = 0; char a;
   do {
