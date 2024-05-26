@@ -7,8 +7,8 @@
 #include "Headers/search.h"
 #include "Headers/display.h"
 
-void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers, int minMovementsPlayers, int minIndex) { // Calculate the points of the players depending of the customers conditions
-  if (cible == 0) {
+void pointsCalculator(int nummovements, int target, Player *player, int nbPlayers, int minMovementsPlayers, int minIndex) { // Calculate the points of the players depending of the customers conditions
+  if (target == 0) { // if the target is not reach then you give 0 points to the actual player but you give 1 point to the others;
     for (int i = 0; i < nbPlayers; i++) {
       if (player[i].id == player[minIndex].id) {
         player[i].score = player[i].score + 0;
@@ -16,10 +16,10 @@ void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers
         player[i].score = player[i].score + 1;
       }
     }
-  } else if (cible == 1 && nummovements == minMovementsPlayers) {
+  } else if (target == 1 && nummovements == minMovementsPlayers) { // if the target is reach with the exact ammount of movements that the actual player gived, then you give 2 point to him and 0 to the others
     player[minIndex].score = player[minIndex].score + 2;
   } else {
-    player[minIndex].score = player[minIndex].score - 1;
+    player[minIndex].score = player[minIndex].score - 1; // if the target is reached but with less movements that the actual player gived, then you substract 1 point to the actual player and give 0 to the others.
   }
   for (int i = 0; i < nbPlayers; i++) {
     printf("\x1B[34m|Score player %d : (%d)|\n", player[i].id,
@@ -30,21 +30,20 @@ printf("\n");
 }
 
 void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice,int artStyle){ // Stopwatch depeding on the difficulty choosed
-  usleep(5);
   int x = 0;
   switch (difficulty){
     case 1:
-    x=45;
+    x=45; // easy
     break;
     case 2:
-    x=25;
+    x=25; // medium
     break;
     case 3:
-    x=15;
+    x=15; // hard
     break;
   }
   printf("\x1B[37m\nLook closely, you will only have few seconds to create a path to the target !");
-  sleep (2);
+  sleep (1);
   printf("\n");
   printf("3\n");
   sleep(1);
@@ -70,15 +69,17 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
     printf("Allocation failed");
     exit(5);
   }
-
+  if(direction != 'z' && direction != 'q' && direction != 's' && direction != 'd'){
+    exit(1);
+  }
   int x = position.x;
   int y = position.y;
-  int numTarget = choice[1];
-  int idRobot = choice[0];
+  int numTarget = choice[1]; // contains the number of the target choosed randomly
+  int idRobot = choice[0]; // contains the id of the robot choosed randomly
   switch (direction) {
   case 'z':
     if (grid[x][y].wall.type != 4 && grid[x - 1][y].robot.id == 0 &&
-        grid[x - 1][y].wall.type != 1) {
+        grid[x - 1][y].wall.type != 1) { // Check if  the robot can move up, if it can, then move it up and update the grid
 
       grid[x][y].robot.id = 0;
       grid[x - 1][y].robot.id = idRobot;
@@ -86,7 +87,7 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
     break;
   case 'q':
     if (grid[x][y].wall.type != 2 && grid[x][y - 1].robot.id == 0 &&
-        grid[x][y - 1].wall.type != 3) {
+        grid[x][y - 1].wall.type != 3) {// Check if  the robot can move left, if it can, then move it up and update the grid
 
       grid[x][y].robot.id = 0;
       grid[x][y - 1].robot.id = idRobot;
@@ -94,7 +95,7 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
     break;
   case 's':
     if (grid[x][y].wall.type != 1 && grid[x + 1][y].robot.id == 0 &&
-        grid[x + 1][y].wall.type != 4) {
+        grid[x + 1][y].wall.type != 4) {// Check if  the robot can move down, if it can, then move it up and update the grid
 
       grid[x][y].robot.id = 0;
       grid[x + 1][y].robot.id = idRobot;
@@ -102,7 +103,7 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
     break;
   case 'd':
     if (grid[x][y].wall.type != 3 && grid[x][y + 1].robot.id == 0 &&
-        grid[x][y + 1].wall.type != 2) {
+        grid[x][y + 1].wall.type != 2) {// Check if  the robot can move rigth, if it can, then move it up and update the grid
       grid[x][y].robot.id = 0;
       grid[x][y + 1].robot.id = idRobot;
     }
@@ -123,10 +124,16 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     printf("Allocation failed");
     exit(10);
   }
+    if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+    exit(1);
+  }
+  if(difficulty < 1 || difficulty > 3){
+    exit(2);
+  }
   countdown(difficulty,grid,size, r, maxRound, choice,artStyle);
   int movements[MAX_PLAYERS] = {0};
   int scan = 0; char a;
-  for (int i = 0; i < nbPlayers; i++) {
+  for (int i = 0; i < nbPlayers; i++) { //ask the players about their movements
     do{
     printf("\x1B[34m Player %d please indicate how many movements you need to reach the target\n\x1B[35m", player[i].id);
     scan = scanf("%3d%c", &movements[i], &a); 
@@ -138,27 +145,24 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     }
   int min = movements[0];
   int minIndex = 0;
-  int numMovements = 0;
-  for (int i = 0; i < nbPlayers; i++) {
+  int numMovements = 0; //number of movements 
+  for (int i = 0; i < nbPlayers; i++) { // the player who indicate the less number of movements is choosen as the actual player
     if (movements[i] <= min) {
       min = movements[i];
       minIndex = i;
     }
   }
 
-  printf("\x1B[34m\nThe minimun number of movements in this round is %d so the "
-         "player ",
-         min);
-  printf("%d\x1B[34m play !\n", player[minIndex].id);
-
-  displayGrid(grid, size,r,maxRound,choice,artStyle);
-
-  int cible = 0;
+  printf("\x1B[34m\nThe minimun number of movements in this round is %d so the ""player ",min);
+  printf("%d\x1B[34m play !\n", player[minIndex].id); // minimum of movements this round
+  printf("%d\x1B[34m play !\n", player[minIndex].id); // the actual player
+  displayGrid(grid, size,r,maxRound,choice,artStyle);  // displaying the grid
+  int target = 0;
   int minMovementsPlayers = min; char b;
   
-  while (min > 0 && cible == 0) {
+  while (min > 0 && target == 0) { // loop until the target is reached or the player run out of movements
     char direction;
-    do {
+    do { // ask the player to choose a direction
       printf("\x1B[37mChoose a direction using z-q-s-d\n");
       scan = scanf("%1c%c", &direction, &b);
       if ( direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' ||  scan != 2 || b!= '\n'){
@@ -166,30 +170,27 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
       empty_buffer(); 
       }
     } while (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' ||  scan != 2 || b!= '\n');
+    
+    numMovements++; // increment the movements ( used to calculate the points at the end of the round);
 
     int idRobot = choice[0];
     int numTarget = choice[1];
 
-    Position posRobot = searchRobot(grid, size, idRobot);
-    Position posTarget = searchTarget(grid, size, numTarget);
-
-    int distance = searchDistance(grid, size, posRobot, direction);
-
-    Position previousPosRobot = posRobot;
-    numMovements++;
-    for (int i = 0; i < size; i++) {
+    Position posRobot = searchRobot(grid, size, idRobot); // give the position of the choosen robot
+    Position posTarget = searchTarget(grid, size, numTarget); // give the position of the choosen target
+    Position previousPosRobot = posRobot; // previous position of the robot
+    for (int i = 0; i < size; i++){ // loop compared to the size of the grid (just to loop since in all cases the loop in most cases breaks before the end of it)
       int clear = system("clear");
       clearScreen(clear);
       move(grid, posRobot, choice, direction);
       displayGrid(grid, size,r,maxRound,choice,artStyle);
-      printf("\n\n DISTANCE = %d\n", distance);
       usleep(80000);
       posRobot = searchRobot(grid, size, idRobot);
       printf("Updated Robot Position: (%d, %d)\n", posRobot.x, posRobot.y);
       printf("Updated Target Position: (%d, %d)\n\n", posTarget.x, posTarget.y);
 
       if (posRobot.x == posTarget.x && posRobot.y == posTarget.y) {
-        cible = 1;
+        target = 1;
         printf("\x1B[36m TARGET REACHED !\n");
         break;
       }
@@ -221,7 +222,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     }
   }
   printf("\x1b[0m");
-  pointsCalculator(numMovements, cible, player, nbPlayers, minMovementsPlayers,minIndex);
+  pointsCalculator(numMovements, target, player, nbPlayers, minMovementsPlayers,minIndex);
 
 }
 

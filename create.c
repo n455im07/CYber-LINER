@@ -62,7 +62,8 @@ Box **createGrid(int size) {
 
 // Player board creator
 Player *createPlayerBoard(int nbPlayers, int size) {
-  if(nbPlayers<2 || nbPlayers>6){
+  if(nbPlayers< MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+      printf("Error : number of players is not between %d and %d\n",MIN_PLAYERS,MAX_PLAYERS);
     exit(1);
   }
   Player *playerBoard = malloc(nbPlayers * sizeof(Player)); // Allocate memory for player board

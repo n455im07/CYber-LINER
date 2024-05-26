@@ -6,6 +6,6 @@
 int chooseNbPlayers();
 int chooseRounds();
 int chooseDifficulty();
-int *randomChoice(Box **, int);
+int *randomChoice(Box **, int,int);
 
 #endif /* CHOICES_H */

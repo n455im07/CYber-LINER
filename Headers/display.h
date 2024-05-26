@@ -4,7 +4,7 @@
 #include "struct.h"
 
 void displayWinner(Player *, int);
-void displayRobot(int);
+void displayRobot(int,int);
 void displayGrid(Box **, int,int,int,int*,int);
 void displayWall(Box **, int, int);
 void displayTarget(int);

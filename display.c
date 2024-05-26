@@ -12,8 +12,8 @@ void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choic
     exit(1);
   }
   if(grid==NULL){
+      printf("Error : grid is NULL (displayCountdown)");
     exit(1);
-    free(grid);
   }
   if(r<=0){
     printf("Error : round count is negative (displatCountdown)");
@@ -24,6 +24,8 @@ void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choic
     exit(1);
   }
   if(choice==NULL){
+      printf("Error : choice is NULL (displatCountdown)");
+
     exit(1);
   }
   for (int i = x; i>0 ; i--){ // Loop during x seconds
@@ -53,7 +55,8 @@ void displayWinner(Player *player, int nbPlayers){ // Display the winner of the 
   if(player==NULL){
     exit(1);
   }
-  if(nbPlayers<2 || nbPlayers>6){
+  if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+      printf("Error : nbPlayers is not between %d and %d (displayWinner)",MIN_PLAYERS,MAX_PLAYERS);
     exit(1);
   }
   int clear = system("clear");
@@ -84,30 +87,49 @@ printf("\n");
   printf("\n\n\x1B[36mTHANKS FOR PLAYING ! \n\n");
 }
 
-void displayRobot(int id) { // Display robots colors depending on their id
-  if (id < 1 || id > 4) {
+void displayRobot(int id, int artStyle) { // Display robots colors depending on their id
+  if (id < MIN_ID || id > MAX_ID) {
+      printf("Error : id is not between 1 and 4 (displayRobot)");
     exit(1);
   }
-  switch (id) {
-  case 1:
-    printf("\033[1;31m ⚇ "); // Red
-    break;
-  case 2:
-    printf("\033[1;32m ⚇ "); //  Green
-    break;
-  case 3:
-    printf("\033[1;33m ⚇ "); // Yellow
-    break;
-  case 4:
-    printf("\033[1;35m ⚇ "); // Pink
-    break;
-  default:
-    break;
+  if (artStyle==1){
+    switch (id){
+      case 1:
+        printf("🎃");
+        break;
+      case 2:
+        printf("🤖");
+        break;
+      case 3:
+        printf("👻");
+        break;
+      case 4:
+        printf("👽");
+        break;
+    }
+  }else if (artStyle==0){
+    switch (id) {
+    case 1:
+      printf("\033[1;31m ⚇ "); // Red
+      break;
+    case 2:
+      printf("\033[1;32m ⚇ "); //  Green
+      break;
+    case 3:
+      printf("\033[1;33m ⚇ "); // Yellow
+      break;
+    case 4:
+      printf("\033[1;35m ⚇ "); // Pink
+      break;
+    default:
+      break;
+    }
   }
 }
 
 void displayColor(int id) { // Change the colors depending of the robot id
-  if (id < 1 || id > 4) {
+  if (id < MIN_ID || id > MAX_ID) {
+    printf("Error : id is not between 1 and 4 (displayColor)");
     exit(1);
   }
   switch (id) {
@@ -130,7 +152,7 @@ void displayColor(int id) { // Change the colors depending of the robot id
 }
 
 void displayTarget(int target) { // Display the target depending on it's number
-  if (target < 1 || target > 18) {
+  if (target < MIN_TARGET || target > MAX_TARGET) {
     exit(1);
   }
   printf("\033[0m"); // Sets the color to default
@@ -245,6 +267,13 @@ void displayWall(Box **grid, int x,int y) { // Display wall depending on wall ty
 }
 
 int convertGrid(Box **grid, int size) {
+ if (grid==NULL){
+    printf("Error : grid is NULL (convertGrid)");
+    exit(1);
+  }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d (convertGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
+  }
   int fullSize = size * 2 + 1 ;
   int **prtGrid = malloc(fullSize * sizeof(int *));
   for (int k = 0; k < fullSize; k++) {
@@ -276,7 +305,7 @@ int convertGrid(Box **grid, int size) {
   
       }
       if (grid[i][j].target != 0) { //TARGET WALLS
-        prtGrid[i * 2 + 1][j * 2 + 1] = 2;
+        prtGrid[i * 2 + 1][j * 2 + 1] = -grid[i][j].target;
         switch (grid[i][j].angle) {
         case 1:
           prtGrid[i * 2][j * 2 + 1] = 3;
@@ -346,6 +375,60 @@ int convertGrid(Box **grid, int size) {
       case 7:
         printf("👽");
         break;
+      case -1:
+        printf("01");
+        break;
+      case -2:
+        printf("02");
+        break;
+      case -3:
+        printf("03");
+        break;
+      case -4:
+        printf("04");
+        break;
+      case -5:
+        printf("05");
+        break;
+      case -6:
+        printf("06");
+        break;
+      case -7:
+        printf("07");
+        break;
+      case -8:
+        printf("08");
+        break;
+      case -9:
+        printf("09");
+        break;
+      case -10:
+        printf("10");
+        break;
+      case -11:
+        printf("11");
+        break;
+      case -12:
+        printf("12");
+        break;
+      case -13:
+        printf("13");
+        break;
+      case -14:
+        printf("14");
+        break;
+      case -15:
+        printf("15");
+        break;
+      case -16:
+        printf("16");
+        break;
+      case -17:
+        printf("17");
+        break;
+      case -18:
+        printf("18");
+        break;
       }
     }
     printf("\n");
@@ -369,6 +452,12 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
   if(choice==NULL){
     exit(1);
   }
+    if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d (displayGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
+  }
+  // convertGrid(grid, size); //Emoji grid
+  printf("\n\n");
+  // Display the whole grid
   if (grid == NULL) { // Verify if memory is allocated
     printf("Allocation failed");
     exit(1);
@@ -376,7 +465,7 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
 
   printf("\x1B[35;1m%d/%d rounds\n", r,maxRound); // Show the current round number and the total number of rounds in magenta
   printf("\x1B[37m\nYour robot is :");
-  displayRobot(choice[0]); // Display the robot in colors depending on the id
+  displayRobot(choice[0],artStyle); // Display the robot in colors depending on the id
   printf("\x1B[37m\nYour target is :"); //
   displayTarget(choice[1]); // Display the target depending on the number
   printf("\n");
@@ -399,7 +488,7 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
           displayTarget(grid[i][j].target);
           targetCount++; // Allow the target to have different id's
         } else {         // Box with a robot and nothing else
-          displayRobot(grid[i][j].robot.id);
+          displayRobot(grid[i][j].robot.id,artStyle);
         }
       }
       printf("\n");

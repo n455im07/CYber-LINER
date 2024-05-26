@@ -50,7 +50,7 @@ void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
     int r=1;
     for (int r = 1; r <= maxRound; r++) {
         printf("\x1B[35mRound %d/%d\n\n", r,maxRound);            
-        int *choice = randomChoice(grid, size); // Choose choice
+        int *choice = randomChoice(grid, size,artStyle); // Choose choice
         playRound(grid, player,difficulty, nbPlayers, size, choice, r, maxRound,artStyle);
   }
   	displayWinner(player, nbPlayers);
@@ -269,7 +269,7 @@ void useMenu(){
         }
         if (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e' && direction != 'a') {
             printf("Wrong input\n");
-            while (getchar() != '\n');
+            empty_buffer();
         } else {
             moveUser(menu, &user, direction);
             menu = createMenu(user);

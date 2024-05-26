@@ -14,6 +14,11 @@ void addTargets(Box **grid, int size, int nbTargets)
   }
   if (nbTargets < 1 || nbTargets > 18)
   {
+    printf("Error: nbTargets is not between 1 and 18\n");
+    exit(1);
+  }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
     exit(1);
   }
   while (nbTargets + 1 > n)
@@ -64,6 +69,10 @@ void addRobots(Box **grid, int size)
     printf("Error: grid malloc failed #1\n");
     exit(1);
   }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
+    exit(1);
+  }
   int n;
   n = 1; // Robot id starts with 1
   while (n < 5)
@@ -91,6 +100,11 @@ void addSpikes(Box **grid, int size)
     printf("Error: grid malloc failed #1\n");
     exit(1);
   }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
+    exit(1);
+  }
+  
   do
   {                              // Add spikes on the top side of the grid
     y = rand() % (size - 2) + 2; // Generate random y coordinate
@@ -141,6 +155,10 @@ void addBoxes(Box **grid, int size)
   if (grid == NULL)
   { // Verify if memory has been allocated
     printf("Error: grid malloc failed #1\n");
+    exit(1);
+  }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
     exit(1);
   }
   for (int i = 0; i < size; i++)

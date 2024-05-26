@@ -1,10 +1,16 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 
+#define MIN_ID 1
+#define MAX_ID 4
+#define MIN_TARGET 1
+#define MAX_TARGET 18
+#define MIN_ROUNDS 1
+#define MAX_ROUNDS 20
+#define MIN_PLAYERS 2
 #define MAX_PLAYERS 6
 #define MAX_GRID_SIZE 22
 #define MIN_GRID_SIZE 16
-#define GRID_SIZE 22
 
 
 /* STRUCTURES CREATION */
