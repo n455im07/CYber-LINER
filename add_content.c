@@ -12,7 +12,7 @@ void addTargets(Box **grid, int size, int nbTargets)
     printf("Error: grid malloc failed #1\n");
     exit(1);
   }
-  if (nbTargets < 1 || nbTargets > 18)
+  if (nbTargets < MIN_TARGET || nbTargets > MAX_TARGET)
   {
     printf("Error: nbTargets is not between 1 and 18\n");
     exit(1);

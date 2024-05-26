@@ -8,6 +8,6 @@ Robot createRobot();
 Wall createWall(int);
 Box createBox(int, int, int);
 Box **createGrid(int);
-Player *createPlayerBoard(int, int);
+Player *createPlayerBoard(int);
 
 #endif /* CREATE_H */

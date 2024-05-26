@@ -59,23 +59,18 @@ void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *ch
   printf("TIMES UP !! \n");
 }
 
-void move(Box **grid, Position position, int *choice, int direction) {// Moove the choosen robot depending of the obstacles on the grid
+void move(Box **grid, Position position, int choice, int direction) {// Moove the choosen robot depending of the obstacles on the grid
   
   if (grid == NULL) { 
     printf("Allocation failed");
     exit(4);
-  }
-  if (choice == NULL) {
-    printf("Allocation failed");
-    exit(5);
   }
   if(direction != 'z' && direction != 'q' && direction != 's' && direction != 'd'){
     exit(1);
   }
   int x = position.x;
   int y = position.y;
-  int numTarget = choice[1]; // contains the number of the target choosed randomly
-  int idRobot = choice[0]; // contains the id of the robot choosed randomly
+  int idRobot = choice; // contains the id of the robot choosed randomly
   switch (direction) {
   case 'z':
     if (grid[x][y].wall.type != 4 && grid[x - 1][y].robot.id == 0 &&
@@ -182,7 +177,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     for (int i = 0; i < size; i++){ // loop compared to the size of the grid (just to loop since in all cases the loop in most cases breaks before the end of it)
       int clear = system("clear");
       clearScreen(clear);
-      move(grid, posRobot, choice, direction);
+      move(grid, posRobot, idRobot, direction);
       displayGrid(grid, size,r,maxRound,choice,artStyle);
       usleep(80000);
       posRobot = searchRobot(grid, size, idRobot);

@@ -61,7 +61,7 @@ Box **createGrid(int size) {
 }
 
 // Player board creator
-Player *createPlayerBoard(int nbPlayers, int size) {
+Player *createPlayerBoard(int nbPlayers) {
   if(nbPlayers< MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
       printf("Error : number of players is not between %d and %d\n",MIN_PLAYERS,MAX_PLAYERS);
     exit(1);

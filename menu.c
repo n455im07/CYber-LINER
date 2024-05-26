@@ -33,7 +33,7 @@ void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
     printf(" \x1B[34m \\___| |_| \x1B[35m|_.__/\\___|_|     |____|___|_|\\_|___|_|_\\\n\n");
 
     // PLAYER BOARD CREATION
-    Player *player = createPlayerBoard(nbPlayers, size);
+    Player *player = createPlayerBoard(nbPlayers);
 
     // GRID CREATION
     Box **grid = createGrid(size); // Create an empty grid
