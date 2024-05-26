@@ -112,6 +112,8 @@ void moveUser(int **menu, UserPosition *user, char direction) { // move in the m
                 user->y++;
             }
             break;
+        default:
+        break;
     }
     menu[user->x][user->y] = 2; // Put the user in the new coordinates
 }
@@ -320,7 +322,7 @@ void useMenu(){
         if (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e' && direction != 'a') {
             printf("Wrong input\n");
             empty_buffer();
-        } else {
+        } else if(direction !='a'){
             moveUser(menu, &user, direction);
             menu = createMenu(user);
         }

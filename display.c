@@ -365,13 +365,13 @@ int convertGrid(Box **grid, int size) {
         printf("  "); // Nothing
         break;
       case 1:
-        printf("🟫"); // Wall
+        printf("🟪"); // Wall
         break;
       case 2:
         printf("🟥"); // Target for testing
         break;
       case 3:
-        printf("⬜"); // Wall arround targets
+        printf("🟦"); // Wall arround targets
         break;
       case 4:
         printf("🎃"); // Robot 1
