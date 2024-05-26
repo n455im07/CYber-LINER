@@ -23,6 +23,7 @@ This README provides instructions on how to compile and run the game, as well as
 6. **Gameplay**
    - The program will give a target and a robot.
    - Players enter the number of movements they think they need to reach the target.
+   - Players with the lowest number of movement plays
    - Use keys z-q-s-d to move on the grid.
 
 7. **Cleaning Up**
