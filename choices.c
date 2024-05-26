@@ -19,11 +19,13 @@ int chooseNbPlayers() { // User choose the number of players
     printf("\x1B[34m╚════════════════════════════════════════════════════╝\n\x1B[35m");
     printf("\x1B[36mYour choice:\n\n \x1B[37m");
     scan = scanf("%1d%c", &nbPlayers, &a);
-    if(nbPlayers < MIN_PLAYERS || nbPlayers > MAX_PLAYERS || scan != 2 || a!= '\n'){
-      printf("Wrong input\n");
-        empty_buffer();
-    }
     
+    if(nbPlayers < MIN_PLAYERS || nbPlayers > MAX_PLAYERS){
+      printf("Wrong input\n");
+    }  
+    if (scan != 2 || a!= '\n' ){
+      empty_buffer(); 
+    }
   } while (nbPlayers < MIN_PLAYERS || nbPlayers > MAX_PLAYERS || scan != 2 || a!= '\n'); // Loop until the number of player is valid (2-6)
   return nbPlayers;
 }
@@ -36,15 +38,16 @@ int chooseRounds() { // User choose the maximum number of rounds
     printf("\x1B[34m║\x1B[35m             === Select Number of Rounds ===              \x1B[34m║\n");
     printf("\x1B[34m║\x1B[36m               Enter the number of rounds (1-20):         \x1B[34m║\n");
     printf("\x1B[34m╚══════════════════════════════════════════════════════════╝\n\x1B[35m");
-    printf("\x1B[36mYour choice: \x1B[37m");
-    scan = scanf("%2d%c", &maxRounds, &b);
-      if(scan != 2 || maxRounds <  MIN_ROUNDS || maxRounds > MAX_ROUNDS || b!= '\n' ){
+    printf("\x1B[36mYour choice:\n \x1B[37m");
+    scan = scanf("%d%c", &maxRounds, &b);
+      if( maxRounds <  MIN_ROUNDS || maxRounds > MAX_ROUNDS){
         printf("Wrong input\n");
-          empty_buffer();
       }
-  
+     if(scan != 2 ||  b!= '\n' ){
+         empty_buffer();
+     }
+
   }while( scan != 2 || maxRounds < MIN_ROUNDS  || maxRounds > MAX_ROUNDS || b!= '\n'); // Loop until the maximum number of rounds is valid (1-20) 
-  empty_buffer();
   return maxRounds;
  }
 
@@ -64,12 +67,13 @@ printf("\n");
   do {
     printf("\x1B[34mChoose game difficulty (1,2 or 3) ? : \n\x1B[35m");
     scan = scanf("%1d%c", &difficulty, &b);
-   if ( difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2 || b!= '\n'){
-    printf("Wrong input\n");
-     empty_buffer();
+   if ( difficulty != 3 && difficulty != 2 && difficulty != 1){
+     printf("Wrong input\n");
+   }
+   if ( scan != 2 || b!= '\n'){
+       empty_buffer();
    }
   } while (difficulty != 3 && difficulty != 2 && difficulty != 1 || scan != 2 || b!= '\n'); // Loop until difficulty level is valid (1,2,3)
-  empty_buffer();
   printf("\n");
   do{ // Display the difficulty level choosen
     printf("\x1B[34m╔══════════════════════════════════════════════════════════╗\n");
@@ -127,7 +131,7 @@ int *randomChoice(Box **grid, int size,int artStyle) {
     y = rand() % (size - 4) + 2;
   }
   numTarget = grid[x][y].target; // Random target choosen
-   
+
   printf("\x1B[37m\nYour robot is :");
   displayRobot(idRobot,artStyle); // Display the caracter in colors depending on the id
   printf("\x1B[37m\nYour target is :");

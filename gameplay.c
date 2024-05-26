@@ -186,9 +186,6 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
       displayGrid(grid, size,r,maxRound,choice,artStyle);
       usleep(80000);
       posRobot = searchRobot(grid, size, idRobot);
-      printf("Updated Robot Position: (%d, %d)\n", posRobot.x, posRobot.y);
-      printf("Updated Target Position: (%d, %d)\n\n", posTarget.x, posTarget.y);
-
       if (posRobot.x == posTarget.x && posRobot.y == posTarget.y) {
         target = 1;
         printf("\x1B[36m TARGET REACHED !\n");

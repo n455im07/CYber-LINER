@@ -87,7 +87,7 @@ printf("\n");
   printf("\n\n\x1B[36mTHANKS FOR PLAYING ! \n\n");
 }
 
-void displayRobot(int id, int artStyle) { // Display robots colors depending on their id
+void displayRobot(int id, int artStyle) { // Display robots colors depending on their id and the art style selected
   if (id < MIN_ID || id > MAX_ID) {
       printf("Error : id is not between 1 and 4 (displayRobot)");
     exit(1);
@@ -274,39 +274,40 @@ int convertGrid(Box **grid, int size) {
   if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
     printf("Error : grid size is not between %d and %d (convertGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
   }
-  int fullSize = size * 2 + 1 ;
-  int **prtGrid = malloc(fullSize * sizeof(int *));
+  int fullSize = size * 2 + 1 ; // Double the size of the grid to display with emojis
+  int **prtGrid = malloc(fullSize * sizeof(int *)); // Allocate memory for the grid
   for (int k = 0; k < fullSize; k++) {
-    prtGrid[k] = calloc(fullSize, sizeof(int));
+    prtGrid[k] = calloc(fullSize, sizeof(int)); // Allocate memory for each line of the grid
   }
   for (int i = 0; i < fullSize; i++) {
     for (int j = 0; j < fullSize; j++) {
       if ((i == 2 && j<fullSize-3 && j>2)|| (j == 2 && i>2 && i<fullSize-3) || (i == fullSize - 3 && j<fullSize-3 && j>2) || (j == fullSize - 3 && i<fullSize-3 && i>2))  {
-        prtGrid[i][j] = 1;
+        prtGrid[i][j] = 1; // Fill borders with 1
       }
     }
   }
   int rbCount = 4;
+  //Loop in the small grid to put values in the bigger grid
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size; j++) {
       if(grid[i][j].wall.type==2 && i==1 && j!= 0 && j!= size -2){
-        prtGrid[2*i+1][j*2]=1;
+        prtGrid[2*i+1][j*2]=1; // Add spikes on top side of the grid
       }
       if(grid[i][j].wall.type==2 && i ==size-2 && j!= 0 && j!= size -2 ){
-        prtGrid[2*i+1][j*2]=1;
+        prtGrid[2*i+1][j*2]=1; // Add spikes on bottom side of the grid
         
       }
       if(grid[i][j].wall.type==1 && j==1 && i!= 0 && i!=size-2) {
-        prtGrid[2*i+2][j*2+1]=1;
+        prtGrid[2*i+2][j*2+1]=1; // Add spikes on left side of the grid
         
       }
       if(grid[i][j].wall.type==1 && j==size-2 && i!= 0 && i!=size-2) {
-        prtGrid[2*i+2][j*2+1]=1;
+        prtGrid[2*i+2][j*2+1]=1; // Add spikes on right side of the grid
   
       }
-      if (grid[i][j].target != 0) { //TARGET WALLS
-        prtGrid[i * 2 + 1][j * 2 + 1] = -grid[i][j].target;
-        switch (grid[i][j].angle) {
+      if (grid[i][j].target != 0) {
+        prtGrid[i * 2 + 1][j * 2 + 1] = -grid[i][j].target; // Place targets on the grid (-1 is for the target number 1 for exemple)
+        switch (grid[i][j].angle) { // Put walls arround the targets depending on the angle that should be covered
         case 1:
           prtGrid[i * 2][j * 2 + 1] = 3;
           prtGrid[i * 2 + 1][j * 2] = 3;
@@ -330,8 +331,8 @@ int convertGrid(Box **grid, int size) {
         }
       }
 
-      if (grid[i][j].robot.id != 0) { // ROBOTS
-        switch (grid[i][j].robot.id) {
+      if (grid[i][j].robot.id != 0) {
+        switch (grid[i][j].robot.id) { // Put robots depending on their id 
         case 1:
           prtGrid[i * 2 + 1][j * 2 + 1] = 4;
           break;
@@ -350,31 +351,32 @@ int convertGrid(Box **grid, int size) {
   }
   for (int i = 0; i < fullSize; i++) {
     for (int j = 0; j < fullSize; j++) {
-      switch (prtGrid[i][j]) {
+      switch (prtGrid[i][j]) { // Print the grid
       case 0:
-        printf("  ");
+        printf("  "); // Nothing
         break;
       case 1:
-        printf("🟫");
+        printf("🟫"); // Wall
         break;
       case 2:
-        printf("🟥");
+        printf("🟥"); // Target for testing
         break;
       case 3:
-        printf("⬜");
+        printf("⬜"); // Wall arround targets
         break;
       case 4:
-        printf("🎃");
+        printf("🎃"); // Robot 1
         break;
       case 5:
-        printf("🤖");
+        printf("🤖"); // Robot 2
         break;
       case 6:
-        printf("👻");
+        printf("👻"); // Robot 3
         break;
       case 7:
-        printf("👽");
+        printf("👽"); // Robot 4
         break;
+        //Targets
       case -1:
         printf("01");
         break;
@@ -455,14 +457,11 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
     if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
     printf("Error : grid size is not between %d and %d (displayGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
   }
-  // convertGrid(grid, size); //Emoji grid
-  printf("\n\n");
-  // Display the whole grid
   if (grid == NULL) { // Verify if memory is allocated
     printf("Allocation failed");
     exit(1);
   }
-
+  printf("\n\n");
   printf("\x1B[35;1m%d/%d rounds\n", r,maxRound); // Show the current round number and the total number of rounds in magenta
   printf("\x1B[37m\nYour robot is :");
   displayRobot(choice[0],artStyle); // Display the robot in colors depending on the id
@@ -470,9 +469,9 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
   displayTarget(choice[1]); // Display the target depending on the number
   printf("\n");
 
-    if (artStyle==1){
-    convertGrid(grid, size);
-  }else if (artStyle==0){
+  if (artStyle==1){
+    convertGrid(grid, size); // Display the grid in emoji style
+  }else if (artStyle==0){ // Display the grid in special character style
     int targetCount = 1;
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < size; j++) {
