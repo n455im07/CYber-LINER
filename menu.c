@@ -13,7 +13,22 @@
 #include "Headers/add_content.h"
 
 void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
-    
+    if(difficulty<1 || difficulty>3){
+        printf("Error : difficulty is not between 1 and 3");
+        exit(1);
+    }
+    if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+        printf("Error : number of players is not between %d and %d",MIN_PLAYERS,MAX_PLAYERS);
+        exit(1);
+    }
+    if(maxRound<0 || maxRound>MAX_ROUNDS){
+        printf("Error : maxRound is not between 1 and %d",MAX_ROUNDS);
+        exit(1);
+    }
+    if(artStyle<0 || artStyle>3){
+        printf("Error : artStyle is not between 0 and 3");
+        exit(1);
+    }
     int *choice = NULL;
     srand(time(NULL)); 
     int size = rand()%(MAX_GRID_SIZE-MIN_GRID_SIZE+1)+MIN_GRID_SIZE; // Generate random number between MAX_GRID_SIZE and MIN_GRID_SIZE
@@ -43,7 +58,7 @@ void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
     addRobots(grid, size); // Add robots randomly 
     
     int r=1;
-    for (int r = 1; r <= maxRound; r++) { // Loop until the number of rounds = maxRound
+    for (int r = MIN_ROUNDS; r <= maxRound; r++) { // Loop until the number of rounds = maxRound
         printf("\x1B[35mRound %d/%d\n\n", r,maxRound); // Print the round count
         int *choice = randomChoice(grid, size,artStyle); // Choose randomly a robot and a target
         playRound(grid, player,difficulty, nbPlayers, size, choice, r, maxRound,artStyle); // Play a round
@@ -64,6 +79,18 @@ void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
 }
 
 void moveUser(int **menu, UserPosition *user, char direction) { // move in the menu
+    if(menu==NULL){
+        printf("Error : menu is NULL");
+        exit(1);
+    }
+    if(user==NULL){
+        printf("Error : user is NULL");
+        exit(1);
+    }
+    if(direction!= 'z' && direction!= 'q' && direction!= 's' && direction!= 'd'){
+        printf("Error : direction is not valid");
+        exit(1);
+    }
     switch(direction) {
         case 'z': // move up
             if (user->x > 1) {
@@ -90,6 +117,10 @@ void moveUser(int **menu, UserPosition *user, char direction) { // move in the m
 }
 
 void printMenu(int **menu) {
+    if(menu==NULL){
+        printf("Error : menu is NULL");
+        exit(1);
+    }
     for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 7; j++) {
             switch(menu[i][j]) {
@@ -176,6 +207,22 @@ int** createMenu(UserPosition user){
 }
 
 void displaySelection(int** menu, UserPosition user, int nbPlayers, int difficulty, int maxRound) {
+    if(menu==NULL){
+        printf("Error : menu is NULL");
+        exit(1);
+    }
+    if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+        printf("Error : number of players is not between %d and %d",MIN_PLAYERS,MAX_PLAYERS);
+        exit(1);
+    }
+    if(difficulty<1 || difficulty>3){
+        printf("Error : difficulty is not between 1 and 3");
+        exit(1);
+    }
+    if(maxRound<0 || maxRound>MAX_ROUNDS){
+        printf("Error : maxRound is not between 1 and %d" ,MAX_ROUNDS);
+        exit(1);
+    }
     if (user.x == 3 && user.y == 3) { // Underline selected option 
         printf(" 💙 \033[1;34m: Number of rounds (Currently %d)\n", maxRound);
         printf(" 💚 \033[1;32m: Players (Currently %d)\n", nbPlayers);

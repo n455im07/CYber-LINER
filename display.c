@@ -28,6 +28,10 @@ void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choic
 
     exit(1);
   }
+  if(artStyle<0 || artStyle>1){
+    printf("Error : art style is not between 0 and 1 (displaytCountdown)");
+    exit(1);
+  }
   for (int i = x; i>0 ; i--){ // Loop during x seconds
     int clear = system("clear");
   clearScreen(clear); // system("clear") verification
@@ -90,6 +94,10 @@ printf("\n");
 void displayRobot(int id, int artStyle) { // Display robots colors depending on their id and the art style selected
   if (id < MIN_ID || id > MAX_ID) {
       printf("Error : id is not between 1 and 4 (displayRobot)");
+    exit(1);
+  }
+  if(artStyle<0||artStyle>1){
+    printf("Error : art style is not between 0 and 1 (displayRobot)");
     exit(1);
   }
   if (artStyle==1){
@@ -273,6 +281,7 @@ int convertGrid(Box **grid, int size) {
   }
   if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
     printf("Error : grid size is not between %d and %d (convertGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
+    exit(1);
   }
   int fullSize = size * 2 + 1 ; // Double the size of the grid to display with emojis
   int **prtGrid = malloc(fullSize * sizeof(int *)); // Allocate memory for the grid
@@ -440,6 +449,7 @@ int convertGrid(Box **grid, int size) {
 
 void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artStyle) { // Display the whole grid
   if(grid==NULL){
+    printf("Allocation failed");
     exit(1);
     free(grid);
   }
@@ -457,8 +467,8 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artSt
     if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
     printf("Error : grid size is not between %d and %d (displayGrid)",MIN_GRID_SIZE,MAX_GRID_SIZE);
   }
-  if (grid == NULL) { // Verify if memory is allocated
-    printf("Allocation failed");
+  if(artStyle<0||artStyle>1){
+    printf("Error : art style is not between 0 and 1");
     exit(1);
   }
   printf("\n\n");

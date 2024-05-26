@@ -8,7 +8,19 @@
 #include "Headers/display.h"
 
 void pointsCalculator(int nummovements, int target, Player *player, int nbPlayers, int minMovementsPlayers, int minIndex) { // Calculate the points of the players depending of the customers conditions
-  if (target == 0) { // if the target is not reach then you give 0 points to the actual player but you give 1 point to the others;
+  if(player==NULL){
+    printf("Error: player malloc failed \n");
+    exit(1);
+  }
+  if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
+    printf("Error : number of players is not between %d and %d\n",MIN_PLAYERS,MAX_PLAYERS);
+    exit(1);
+  }
+  if(nummovements<=0){
+    printf("Number of movements cannot be negative or 0\n");
+    exit(1);
+  }
+  if (target == 0) { // if the target is not reach then you give 0 points to the player but you give 1 point to the others;
     for (int i = 0; i < nbPlayers; i++) {
       if (player[i].id == player[minIndex].id) {
         player[i].score = player[i].score + 0;
@@ -30,6 +42,34 @@ printf("\n");
 }
 
 void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice,int artStyle){ // Stopwatch depeding on the difficulty choosed
+    if(difficulty!=1 && difficulty!=2 && difficulty!=3){
+    printf("Error : difficulty is not between 1 and 3\n");
+    exit(1);
+  }
+  if(grid==NULL){
+    printf("Error: malloc failed\n");
+    exit(1);
+  }
+  if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
+    exit(1);
+  }
+  if(r<=0 || r > maxRound){
+    printf("Error : round is not between 1 and %d\n",maxRound);
+    exit(1);
+  }
+  if(maxRound<=0 || maxRound > MAX_ROUNDS ){
+    printf("Error : max round is not between 1 and %d\n",MAX_ROUNDS);
+    exit(1);
+  }
+  if(choice==NULL){
+    printf("Error: malloc failed\n");
+    exit(1);
+  }
+  if(artStyle<0 || artStyle>1){
+    printf("Error : art style is not between 0 and 1\n");
+    exit(1);
+  }
   int x = 0;
   switch (difficulty){
     case 1:
@@ -120,10 +160,28 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     exit(10);
   }
     if(nbPlayers<MIN_PLAYERS || nbPlayers>MAX_PLAYERS){
-    exit(1);
+      printf("Error : number of players is not between %d and %d\n",MIN_PLAYERS,MAX_PLAYERS);
+      exit(1);
   }
   if(difficulty < 1 || difficulty > 3){
+    printf("Error : difficulty is not between 1 and 3\n");
     exit(2);
+  }
+    if(size<MIN_GRID_SIZE || size>MAX_GRID_SIZE){
+    printf("Error : grid size is not between %d and %d\n",MIN_GRID_SIZE,MAX_GRID_SIZE);
+    exit(1);
+  }
+  if(r<=0){
+    printf("Error : round is not between 1 and %d\n",maxRound);
+    exit(1);
+  }
+  if(maxRound>MAX_ROUNDS){
+    printf("Error : max round is not between 1 and %d\n",MAX_ROUNDS);
+    exit(1);
+  }
+  if(artStyle<0 || artStyle>1){
+    printf("Error : art style is not between 0 and 1\n");
+    exit(1);
   }
   countdown(difficulty,grid,size, r, maxRound, choice,artStyle);
   int movements[MAX_PLAYERS] = {0};
