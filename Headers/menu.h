@@ -3,7 +3,7 @@
 
 #include "struct.h"
 
-void setup(int ,int , int );
+void setup(int ,int , int, int);
 void moveUser(int **, UserPosition *, char );
 void printMenu(int **);
 int** createMenu(UserPosition );

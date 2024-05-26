@@ -14,7 +14,6 @@ typedef struct {
     int y;
 } UserPosition; // In the menu
 
-
 typedef struct {
   int x;
   int y;

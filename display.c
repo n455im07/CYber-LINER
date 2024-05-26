@@ -6,7 +6,7 @@
 #include "Headers/create.h"
 #include "Headers/utilities.h"
 
-void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choice){ // Display a countdown
+void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choice,int artStyle){ // Display a countdown
   if(x<=0){
     printf("Error : time value is negative (displayCountdown)");
     exit(1);
@@ -29,7 +29,7 @@ void displayCountdown(int x,Box** grid, int size, int r, int maxRound,int* choic
   for (int i = x; i>0 ; i--){ // Loop during x seconds
     int clear = system("clear");
   clearScreen(clear); // system("clear") verification
-  displayGrid(grid,size, r, maxRound,choice); // Displaying the grid for the player to think about a strategy
+  displayGrid(grid,size, r, maxRound,choice,artStyle); // Displaying the grid for the player to think about a strategy
   switch (i){ // Change the color of the countdown to Yellow for 3, Orange for 2, Red for 1
     case 3:
       printf("\x1B[33m");
@@ -260,22 +260,22 @@ int convertGrid(Box **grid, int size) {
   int rbCount = 4;
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size; j++) {
-      if(grid[i][j].wall.type!=0 && i==1 && j!= 0 && j!= size -2){
-        prtGrid[2*i+1][j*2+1]=1;
+      if(grid[i][j].wall.type==2 && i==1 && j!= 0 && j!= size -2){
+        prtGrid[2*i+1][j*2]=1;
       }
-      if(grid[i][j].wall.type!=0 && i ==size-2 && j!= 0 && j!= size -2 ){
+      if(grid[i][j].wall.type==2 && i ==size-2 && j!= 0 && j!= size -2 ){
         prtGrid[2*i+1][j*2]=1;
         
       }
-      if(grid[i][j].wall.type!=0 && j==1 && i!= 0 && i!=size-2) {
-        prtGrid[2*i+1][j*2+1]=1;
+      if(grid[i][j].wall.type==1 && j==1 && i!= 0 && i!=size-2) {
+        prtGrid[2*i+2][j*2+1]=1;
         
       }
-      if(grid[i][j].wall.type!=0 && j==size-2 && i!= 0 && i!=size-2) {
-        prtGrid[2*i+1][j*2+1]=1;
+      if(grid[i][j].wall.type==1 && j==size-2 && i!= 0 && i!=size-2) {
+        prtGrid[2*i+2][j*2+1]=1;
   
       }
-      if (grid[i][j].target != 0 && grid[i][j].robot.id == 0) { //TARGET WALLS
+      if (grid[i][j].target != 0) { //TARGET WALLS
         prtGrid[i * 2 + 1][j * 2 + 1] = 2;
         switch (grid[i][j].angle) {
         case 1:
@@ -353,7 +353,7 @@ int convertGrid(Box **grid, int size) {
   return 0;
 }
 
-void displayGrid(Box **grid, int size,int r,int maxRound, int* choice) { // Display the whole grid
+void displayGrid(Box **grid, int size,int r,int maxRound, int* choice, int artStyle) { // Display the whole grid
   if(grid==NULL){
     exit(1);
     free(grid);
@@ -369,37 +369,40 @@ void displayGrid(Box **grid, int size,int r,int maxRound, int* choice) { // Disp
   if(choice==NULL){
     exit(1);
   }
-  //convertGrid(grid, size);
-  printf("\n\n");
-  // Display the whole grid
   if (grid == NULL) { // Verify if memory is allocated
     printf("Allocation failed");
     exit(1);
   }
+
   printf("\x1B[35;1m%d/%d rounds\n", r,maxRound); // Show the current round number and the total number of rounds in magenta
   printf("\x1B[37m\nYour robot is :");
   displayRobot(choice[0]); // Display the robot in colors depending on the id
   printf("\x1B[37m\nYour target is :"); //
   displayTarget(choice[1]); // Display the target depending on the number
   printf("\n");
-  int targetCount = 1;
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < size; j++) {
-      int id = grid[i][j].robot.id;
-      if (grid[i][j].wall.type != 0 && grid[i][j].robot.id == 0) { // Box with a wall and no robot
-        displayWall(grid, i, j);
-      } else if (grid[i][j].wall.type != 0 && grid[i][j].robot.id != 0) { // Box with a wall and a robot
-        displayOccupiedWall(grid, i, j);
-      } else if (grid[i][j].wall.type == 0 && grid[i][j].robot.id == 0 && grid[i][j].target == 0) { // Box with no robot, no target and no wall
-        printf("\x1b[0m");
-        printf("\x1B[0m - ");
-      } else if (grid[i][j].target != 0 && grid[i][j].robot.id == 0) { // Box with a target and no robot
-        displayTarget(grid[i][j].target);
-        targetCount++; // Allow the target to have different id's
-      } else {         // Box with a robot and nothing else
-        displayRobot(grid[i][j].robot.id);
+
+    if (artStyle==1){
+    convertGrid(grid, size);
+  }else if (artStyle==0){
+    int targetCount = 1;
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        int id = grid[i][j].robot.id;
+        if (grid[i][j].wall.type != 0 && grid[i][j].robot.id == 0) { // Box with a wall and no robot
+          displayWall(grid, i, j);
+        } else if (grid[i][j].wall.type != 0 && grid[i][j].robot.id != 0) { // Box with a wall and a robot
+          displayOccupiedWall(grid, i, j);
+        } else if (grid[i][j].wall.type == 0 && grid[i][j].robot.id == 0 && grid[i][j].target == 0) { // Box with no robot, no target and no wall
+          printf("\x1b[0m");
+          printf("\x1B[0m - ");
+        } else if (grid[i][j].target != 0 && grid[i][j].robot.id == 0) { // Box with a target and no robot
+          displayTarget(grid[i][j].target);
+          targetCount++; // Allow the target to have different id's
+        } else {         // Box with a robot and nothing else
+          displayRobot(grid[i][j].robot.id);
+        }
       }
+      printf("\n");
     }
-    printf("\n");
   }
 }

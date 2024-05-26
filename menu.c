@@ -12,7 +12,7 @@
 #include "Headers/create.h"
 #include "Headers/add_content.h"
 
-void setup(int difficulty,int nbPlayers, int maxRound){
+void setup(int difficulty,int nbPlayers, int maxRound,int artStyle){
     
     int *choice = NULL;
     srand(time(NULL)); 
@@ -51,7 +51,7 @@ void setup(int difficulty,int nbPlayers, int maxRound){
     for (int r = 1; r <= maxRound; r++) {
         printf("\x1B[35mRound %d/%d\n\n", r,maxRound);            
         int *choice = randomChoice(grid, size); // Choose choice
-        playRound(grid, player,difficulty, nbPlayers, size, choice, r, maxRound);
+        playRound(grid, player,difficulty, nbPlayers, size, choice, r, maxRound,artStyle);
   }
   	displayWinner(player, nbPlayers);
   	printf("   \x1B[32m_____   __\x1B[36m_                 _    ___ _  _ ___ ___ \n");
@@ -207,6 +207,7 @@ void useMenu(){
     int difficulty = 1;
     int nbPlayers = 2;
     int maxRound = 5;
+    int artStyle = 0;
     UserPosition user = {3, 3};
     int** menu = createMenu(user);
     char direction, b;
@@ -251,13 +252,22 @@ void useMenu(){
         }
 
         printf("\x1B[37mChoose a direction using z-q-s-d  | e to start\n");
+        if (artStyle==0){
+            printf("\x1B[37mIn game art style : ☻   ⒮  ⓟ  ⓔ  ⒞  Ⓘ  Ⓐ  ⓛ    Ⓒ  Ⓗ  Ⓐ  ⓡ  Ⓐ  Ⓒ  ⓣ  Ⓔ  ⓡ  ⓢ    | a to change\n");
+        }else if (artStyle==1){
+            printf("\x1B[37mIn game art style :\x1B[34m 😊   🅴 🅼 🅾  🅹 🅸  \x1B[37m| a to change\n");
+        }
+        
         displaySelection(menu, user, nbPlayers, difficulty, maxRound);
         direction = getchar();
         empty_buffer();
         if (direction == 'e'){
             break;
         }
-        if (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e') {
+        if (direction == 'a'){
+            artStyle=(artStyle+1)%2; // Swap the in game art style between 0 and 1
+        }
+        if (direction != 'd' && direction != 's' && direction != 'q' && direction != 'z' && direction != 'e' && direction != 'a') {
             printf("Wrong input\n");
             while (getchar() != '\n');
         } else {
@@ -265,7 +275,7 @@ void useMenu(){
             menu = createMenu(user);
         }
     }
-    setup(difficulty,nbPlayers,maxRound);
+    setup(difficulty,nbPlayers,maxRound,artStyle);
     for (int k = 0; k < 7; k++){
         free(menu[k]);
     }

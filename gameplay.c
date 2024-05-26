@@ -29,7 +29,7 @@ void pointsCalculator(int nummovements, int cible, Player *player, int nbPlayers
 printf("\n");
 }
 
-void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice){ // Stopwatch depeding on the difficulty choosed
+void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *choice,int artStyle){ // Stopwatch depeding on the difficulty choosed
   usleep(5);
   int x = 0;
   switch (difficulty){
@@ -54,7 +54,7 @@ void countdown(int difficulty, Box** grid, int size, int r, int maxRound,int *ch
   sleep(1);
   printf("GO !\n");
   sleep(1);
-  displayCountdown(x, grid, size, r, maxRound,choice);
+  displayCountdown(x, grid, size, r, maxRound,choice,artStyle);
   int clear = system("clear");
     clearScreen(clear);
   printf("TIMES UP !! \n");
@@ -110,7 +110,7 @@ void move(Box **grid, Position position, int *choice, int direction) {// Moove t
   }
 }
 
-void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int size, int *choice, int r, int maxRound) {
+void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int size, int *choice, int r, int maxRound, int artStyle) {
   if (grid == NULL) {
     printf("Allocation failed");
     exit(8);
@@ -123,7 +123,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
     printf("Allocation failed");
     exit(10);
   }
-  countdown(difficulty,grid,size, r, maxRound, choice);
+  countdown(difficulty,grid,size, r, maxRound, choice,artStyle);
   int movements[MAX_PLAYERS] = {0};
   int scan = 0; char a;
   for (int i = 0; i < nbPlayers; i++) {
@@ -151,7 +151,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
          min);
   printf("%d\x1B[34m play !\n", player[minIndex].id);
 
-  displayGrid(grid, size,r,maxRound,choice);
+  displayGrid(grid, size,r,maxRound,choice,artStyle);
 
   int cible = 0;
   int minMovementsPlayers = min; char b;
@@ -181,7 +181,7 @@ void playRound(Box **grid, Player *player, int difficulty, int nbPlayers,int siz
       int clear = system("clear");
       clearScreen(clear);
       move(grid, posRobot, choice, direction);
-      displayGrid(grid, size,r,maxRound,choice);
+      displayGrid(grid, size,r,maxRound,choice,artStyle);
       printf("\n\n DISTANCE = %d\n", distance);
       usleep(80000);
       posRobot = searchRobot(grid, size, idRobot);
